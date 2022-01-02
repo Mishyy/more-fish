@@ -1,95 +1,69 @@
-import org.apache.tools.ant.filters.*
+import org.apache.tools.ant.filters.ReplaceTokens
 
-apply plugin: 'java'
-apply plugin: "kotlin"
-apply plugin: 'maven'
-apply plugin: "com.github.johnrengelman.shadow"
+plugins {
+    id 'idea'
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
 
 group = 'me.elsiff'
 version = '3.0.3-SNAPSHOT'
 
-ext.pluginName = 'MoreFish'
-ext.author = 'elsiff'
-ext.website = 'https://elsiff.me'
-ext.mainPackage = 'me.elsiff.morefish'
-ext.mainClass = mainPackage + ".MoreFish"
+ext {
+    pluginName = 'MoreFish'
+    author = 'elsiff'
+    website = 'https://elsiff.me'
+    mainPackage = 'me.elsiff.morefish'
+    mainClass = mainPackage + '.MoreFish'
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-buildscript {
-    ext.kotlin_version = '1.4.10'
-
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.3"
-    }
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
 repositories {
-    jcenter()
     mavenCentral()
-    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-    maven { url "http://nexus.hc.to/content/repositories/pub_releases" }
-    maven { url "http://repo.citizensnpcs.co/" }
-    maven { url "http://repo.extendedclip.com/content/repositories/placeholderapi/" }
-    maven { url "http://repo.dmulloy2.net/nexus/repository/public/" }
-    maven { url "https://maven.enginehub.org/repo/" }
-    maven { url "https://repo.aikar.co/content/groups/aikar/" }
-    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-    maven { url 'https://jitpack.io' }
-    maven { url 'https://repo.codemc.org/repository/maven-public/' }
-}
-
-compileJava {
-    options.compilerArgs += ["-parameters"]
-    options.fork = true
-    options.forkOptions.executable = 'javac'
-}
-compileKotlin {
-    kotlinOptions.javaParameters = true
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' }
+    maven { url 'https://repo.dmulloy2.net/nexus/repository/public' }
+    maven { url 'https://maven.enginehub.org/repo' }
+    maven { url "https://repo.citizensnpcs.co" }
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi' }
+    maven { url 'https://nexus.neetgames.com/repository/maven-releases' }
+    maven { url 'https://repo.aikar.co/content/groups/aikar' }
+    maven {
+        url 'https://jitpack.io'
+        content {
+            includeGroup 'com.github.elsiff'
+            includeGroup 'com.github.elsiff.egui'
+            includeGroup 'com.github.MilkBowl'
+        }
+    }
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 
-    implementation 'co.aikar:acf-core:0.5.0-SNAPSHOT'
-    implementation 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'com.comphenix.protocol:ProtocolLib:4.7.0'
+    compileOnly 'com.sk89q.worldguard:worldguard-legacy:6.2'
+    compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
+    compileOnly 'net.citizensnpcs:citizensapi:2.0.29-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.11.1'
+    compileOnly 'com.gmail.nossr50.mcMMO:mcMMO:2.1.207'
+
+    implementation 'co.aikar:acf-paper:0.5.1-SNAPSHOT'
     implementation 'com.github.elsiff:egui:1.0.2-SNAPSHOT'
-    compileOnly 'com.comphenix.protocol:ProtocolLib:4.6.0-SNAPSHOT'
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.4'
-    compileOnly 'org.spigotmc:spigot-api:1.16.3-R0.1-SNAPSHOT'
-    compileOnly 'net.milkbowl.vault:VaultAPI:1.7'
-    compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
-    compileOnly 'me.clip:placeholderapi:2.10.9'
-    compileOnly 'com.gmail.nossr50.mcMMO:mcMMO:2.1.147'
 }
 
-configurations {
-    testCompile.extendsFrom compileOnly
+compileJava {
+    options.compilerArgs += ['-parameters']
+    options.fork = true
+    options.forkOptions.executable = 'javac'
 }
 
 shadowJar {
     relocate 'co.aikar.commands', "${mainPackage}.acf"
 }
-build { dependsOn shadowJar }
 
 processResources {
     filteringCharset = 'UTF-8'
@@ -101,3 +75,5 @@ processResources {
             "mainClass"      : mainClass
     ]
 }
+
+build.dependsOn shadowJar
