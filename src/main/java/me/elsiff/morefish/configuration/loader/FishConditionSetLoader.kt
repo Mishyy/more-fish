@@ -7,10 +7,7 @@ import me.elsiff.morefish.hooker.McmmoHooker
 import me.elsiff.morefish.hooker.WorldGuardHooker
 import me.elsiff.morefish.util.NamespacedKeyUtils
 import org.apache.commons.lang.math.DoubleRange
-import org.bukkit.NamespacedKey
 import org.bukkit.block.Biome
-import org.bukkit.enchantments.Enchantment
-import java.lang.IllegalArgumentException
 
 /**
  * Created by elsiff on 2019-01-09.

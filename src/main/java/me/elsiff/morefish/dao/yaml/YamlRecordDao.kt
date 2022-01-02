@@ -71,7 +71,7 @@ class YamlRecordDao(
 
             val fishTypeName = section.getString("fish-type")
             val fishType = fishTypeTable.types.find { it.name == fishTypeName }
-                    ?: throw IllegalStateException("Fish type doesn't exist for '$fishTypeName'")
+                ?: throw IllegalStateException("Fish type doesn't exist for '$fishTypeName'")
             val fishLength = section.getDouble("fish-length")
 
             val fish = Fish(fishType, fishLength)

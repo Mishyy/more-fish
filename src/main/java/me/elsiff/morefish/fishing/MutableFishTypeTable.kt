@@ -35,10 +35,10 @@ class MutableFishTypeTable : HashMap<FishRarity, Set<FishType>>(), FishTypeTable
     }
 
     override fun pickRandomType(
-            caught: Item,
-            fisher: Player,
-            competition: FishingCompetition,
-            rarity: FishRarity
+        caught: Item,
+        fisher: Player,
+        competition: FishingCompetition,
+        rarity: FishRarity
     ): FishType {
         check(contains(rarity)) { "Rarity must be contained in the table" }
         val types = this[rarity]!!.filter { type ->

@@ -2,7 +2,6 @@ package me.elsiff.morefish.configuration.loader
 
 import me.elsiff.morefish.configuration.ConfigurationValueAccessor
 import me.elsiff.morefish.util.NamespacedKeyUtils
-import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 
 /**

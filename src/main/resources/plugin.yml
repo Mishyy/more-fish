@@ -4,12 +4,12 @@ website: @website@
 version: @project.version@
 main: @mainClass@
 api-version: 1.13
-softdepend: [Vault, Citizens, PlaceholderAPI, ProtocolLib, mcMMO, WorldGuard]
+softdepend: [ Vault, Citizens, PlaceholderAPI, ProtocolLib, mcMMO, WorldGuard ]
 commands:
   morefish:
     description: Main command for MoreFish.
     usage: /morefish
-    aliases: [mf, fish]
+    aliases: [ mf, fish ]
 permissions:
   morefish.admin:
     default: op

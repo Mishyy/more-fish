@@ -33,6 +33,6 @@ object NamespacedKeyUtils {
 
     fun enchantment(namespacedKey: NamespacedKey): Enchantment {
         return Enchantment.getByKey(namespacedKey)
-                ?: throw IllegalStateException("There's no enchantment whose id is '$namespacedKey'")
+            ?: throw IllegalStateException("There's no enchantment whose id is '$namespacedKey'")
     }
 }
